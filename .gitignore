@@ -33,6 +33,7 @@ env/
 ENV/
 .env.bak/
 *.env
+__pycache__
 
 # VS Code
 .vscode/

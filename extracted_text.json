@@ -1,1 +1,1 @@
-{"text": "Error during text extraction: Torch not compiled with CUDA enabled"}
+{"text": "Error during text extraction: Current CUDA Device does not support bfloat16. Please switch dtype to float16."}

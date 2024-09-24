@@ -1,6 +1,7 @@
 import streamlit as st
 from ocr import extract_text_got  # The updated OCR function
 import json
+import numpy
 
 # --- UI Styling ---
 st.set_page_config(page_title="DualTextOCRFusion",
