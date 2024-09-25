@@ -3,7 +3,23 @@ from transformers import AutoModel, AutoTokenizer
 import torch
 from torch.cuda.amp import autocast
 
-# Check if CUDA is available
+# Load model and tokenizer
+model_name = "ucaslcl/GOT-OCR2_0"
+tokenizer = AutoTokenizer.from_pretrained(
+    model_name, trust_remote_code=True, return_tensors='pt')
+
+# Load the model
+model = AutoModel.from_pretrained(
+    model_name,
+    trust_remote_code=True,
+    low_cpu_mem_usage=True,
+    device_map="auto",  # Automatically map layers to CUDA/CPU based on availability
+    offload_buffers=True,  # Offload buffers to CPU if GPU memory is limited
+    use_safetensors=True,
+    pad_token_id=tokenizer.eos_token_id,
+)
+
+# Remove manual .cuda() or .cpu() calls as device_map manages this
 if torch.cuda.is_available():
     device = torch.device("cuda")
     dtype = torch.float16  # Use float16 on CUDA
@@ -13,26 +29,10 @@ else:
     dtype = torch.float32  # Use float32 on CPU
     print(f"CUDA not available, using {device} with {dtype}.")
 
-# Load model and tokenizer
-model_name = 'ucaslcl/GOT-OCR2_0'
-tokenizer = AutoTokenizer.from_pretrained(
-    model_name, trust_remote_code=True, return_tensors='pt')
+# Ensure the model is in evaluation mode
+model = model.eval()
 
-# Load the model
-model = AutoModel.from_pretrained(
-    model_name,
-    trust_remote_code=True,
-    low_cpu_mem_usage=True,
-    device_map='cuda',
-    use_safetensors=True,
-    pad_token_id=tokenizer.eos_token_id,
-)
-
-# Convert model to FP16 for inference
-if device.type == 'cuda':
-    model = model.half()  # Converts model to float16
-
-model = model.eval().to(device).float()
+# OCR function
 
 
 def extract_text_got(uploaded_file):
@@ -51,8 +51,8 @@ def extract_text_got(uploaded_file):
 
         results = []
 
-        # Apply autocast for mixed precision inference
-        with autocast():
+        # Apply autocast for mixed precision inference if CUDA is available
+        with autocast(device.type == 'cuda'):
             # Try PLAIN and FORMATTED OCR
             for ocr_type in ocr_types:
                 with torch.no_grad():
