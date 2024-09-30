@@ -1,13 +1,14 @@
 # 🔍 DualTextOCRFusion
+<img src="icon.jpeg" alt="Logo" width="150"/>
 
-**DualTextOCRFusion** is a web-based Optical Character Recognition (OCR) application that allows users to upload images containing both Hindi and English text, extract the text, and search for keywords within the extracted text. The app uses advanced models like **ColPali’s Byaldi + Qwen2-VL** or **General OCR Theory (GOT)** for multilingual text extraction.
+**DualTextOCRFusion** is a web-based Optical Character Recognition (OCR) application that allows users to upload images, extract text, and search for keywords within the extracted text. The app uses models like **Byaldi + Qwen2-VL** or **General OCR Theory (GOT)** for multilingual text extraction.
 
 ## Features
 
 - **Multilingual OCR**: Extract text from images containing both **Hindi** and **English**.
-- **Keyword Search**: Search for specific keywords in the extracted text.
+- **Keyword Search**: Search for specific keywords in the extracted text in real-time.
+- **Text Correction and Pasting**: Allows pasting images from clipboard and displaying cleaned results.
 - **User-Friendly Interface**: Simple, intuitive interface for easy image uploading and searching.
-- **Deployed Online**: Accessible through a live URL for easy use.
 
 ## Technologies Used
 
@@ -15,8 +16,8 @@
 - **Streamlit**: For building the web interface.
 - **Huggingface Transformers**: For integrating OCR models (Qwen2-VL or GOT).
 - **PyTorch**: For deep learning inference.
-- **Pytesseract**: Optional OCR engine.
 - **OpenCV**: For image preprocessing.
+- **Pillow**: For handling image data.
 
 ## Project Structure
 
@@ -24,10 +25,6 @@
 DualTextOCRFusion/
 │
 ├── app.py                 # Main Streamlit application
-├── ocr.py                 # Handles OCR extraction using the selected model
-├── .gitignore             # Files and directories to ignore in Git
-├── .streamlit/
-│   └── config.toml        # Streamlit theme configuration
 ├── requirements.txt       # Dependencies for the project
 └── README.md              # This file
 ```
@@ -37,7 +34,6 @@ DualTextOCRFusion/
 ### Prerequisites
 
 - Python 3.8 or above installed on your machine.
-- Tesseract installed for using `pytesseract` (optional if using Huggingface models). You can download Tesseract from [here](https://github.com/tesseract-ocr/tesseract).
 
 ### Steps
 
@@ -50,7 +46,7 @@ DualTextOCRFusion/
 
 2. **Install Dependencies**:
 
-   Make sure you have the required dependencies by running the following:
+   Install the required dependencies by running:
 
    ```bash
    pip install -r requirements.txt
@@ -74,44 +70,44 @@ DualTextOCRFusion/
 
 ### Usage
 
-1. **Upload an Image**: Upload an image containing Hindi and English text in formats like JPG, JPEG, or PNG.
+1. **Upload an Image**: Upload an image containing Hindi and/or English text in formats like JPG, JPEG, or PNG.
 2. **View Extracted Text**: The app will extract and display the text from the image.
-3. **Search for Keywords**: Enter any keyword to search within the extracted text.
-
-## Deployment
-
-The app is deployed on **Streamlit Sharing** and can be accessed via the live URL:
-
-**[Live Application](https://your-app-link.streamlit.app)**
+3. **Search for Keywords**: Enter any keyword to search within the extracted text in real-time without pressing Enter.
 
 ## Customization
 
 ### Changing the OCR Model
 
-By default, the app uses the **Qwen2-VL** model, but you can switch to the **General OCR Theory (GOT)** model by editing the `ocr.py` file.
+By default, the app uses the **Qwen2-VL** model, but you can switch to the **General OCR Theory (GOT)** model by modifying the OCR extraction logic in `app.py`.
 
-- **For Qwen2-VL**:
-  
-  ```python
-  from ocr import extract_text_byaldi
-  ```
+## Deployment
 
-- **For General OCR Theory (GOT)**:
-  
-  ```python
-  from ocr import extract_text_got
-  ```
-
-### Custom UI Theme
-
-You can customize the look and feel of the application by modifying the `.streamlit/config.toml` file. Adjust colors, fonts, and layout options to suit your preferences.
+The app can be deployed using any platform that supports Streamlit apps, such as **Streamlit Community Cloud**, **Heroku**, or **AWS**.
 
 ## Example Images
 
 Here are some sample images you can use to test the OCR functionality:
 
 1. **Sample 1**: A document with mixed Hindi and English text.
+   ![Sample Image1](images/sample_image1.jpg)
+
 2. **Sample 2**: An image with only Hindi text for multilingual OCR testing.
+
+   ![Sample Image2](images/sample_image2.jpeg)
+
+## Dependencies
+
+The main dependencies for the project are:
+
+- `transformers==4.45.0`
+- `streamlit==1.30.0`
+- `torch` (from PyTorch CPU)
+- `Pillow==10.3.0`
+- `opencv-python`
+- `streamlit-keyup`
+- `st-img-pastebutton`
+
+To see the full list of dependencies, refer to the `requirements.txt` file.
 
 ## Contributing
 
@@ -138,6 +134,10 @@ If you'd like to contribute to this project, feel free to fork the repository an
 
 5. Open a pull request.
 
+## Screenshot
+   ![Sample Image1](Screenshot1.png)
+   ![Sample Image1](Screenshot2.png)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -146,5 +146,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Streamlit**: For the easy-to-use web interface.
 - **Huggingface Transformers**: For the powerful OCR models.
-- **Tesseract**: For optional OCR functionality.
-- **ColPali & GOT Models**: For the multilingual OCR support.
+- **PyTorch**: For model inference.
+- **Byaldi & GOT Models**: For multilingual OCR support.

@@ -1,9 +1,18 @@
-streamlit==1.24.0
-Pillow==9.0.1
-numpy==1.24.1
-torch==2.0.1
-torchvision==0.15.2
-transformers==4.37.2
-tiktoken==0.6.0
-verovio==4.3.1
+transformers==4.45.0
+streamlit==1.30.0
+torch --index-url https://download.pytorch.org/whl/cpu
+torchvision --index-url https://download.pytorch.org/whl/cpu
+tiktoken
+verovio
 accelerate==0.28.0
+Pillow==10.3.0
+opencv-python
+cairosvg
+numpy==1.26.4
+loadimg
+markdown
+shutils
+rapidfuzz
+groq
+streamlit-keyup
+st-img-pastebutton
