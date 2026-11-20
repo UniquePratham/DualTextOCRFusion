@@ -53,3 +53,7 @@ __pycache__
 
 # Streamlit Cache (Optional)
 streamlit_cache/
+
+# Added by repo hygiene pass
+.env.local
+node_modules/

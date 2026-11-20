@@ -65,7 +65,7 @@ def clean_extracted_text(text):
 def polish_text_with_ai(cleaned_text):
     prompt = f"Remove unwanted spaces between and inside words to join incomplete words, creating a meaningful sentence in either Hindi, English, or Hinglish without altering any words from the given extracted text. Then, return the corrected text with adjusted spaces, keeping it as close to the original as possible, along with relevant details or insights that an AI can provide about the extracted text. Extracted Text: {cleaned_text}"
     client = Groq(
-        api_key="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")
+        api_key=os.environ.get("GROQ_API_KEY"))
     chat_completion = client.chat.completions.create(
         messages=[
             {
